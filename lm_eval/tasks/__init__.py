@@ -1,6 +1,7 @@
 from pprint import pprint
 from typing import List, Union
 
+
 import sacrebleu
 import lm_eval.base
 
@@ -67,7 +68,7 @@ from . import ceval
 from . import csatqa
 from . import haerae
 from . import cmmlu
-
+from . import exams
 ########################################
 # Translation tasks
 ########################################
@@ -99,6 +100,9 @@ all_translation_benchmarks = {
 
 
 TASK_REGISTRY = {
+
+    **exams.generate_all_exams_loglikelikelihoods_tasks(),
+    "exams_greedy": exams.EXAMS_GREEDY,
     "babi": babi.Babi,
     # GLUE
     "cola": glue.CoLA,

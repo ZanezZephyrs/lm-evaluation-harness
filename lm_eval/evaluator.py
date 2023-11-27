@@ -8,9 +8,22 @@ import lm_eval.tasks
 import lm_eval.base
 from lm_eval.utils import positional_deprecated, run_task_tests
 from lm_eval.models.gpt2 import HFLM
+import os 
 
 import numpy as np
 import transformers
+
+def write_sample(output_dir, task_name, prompt_mode, doc_id, pred, req_obj, metrics):
+    with open(os.path.join(output_dir, f"{task_name}_{prompt_mode}_samples.txt"), "a", encoding="utf-8") as f:
+        f.write("*" * 50)
+        f.write(f"doc_id: {doc_id}\n")
+        f.write("------------------------prompt------------------------------------\n")
+
+        f.write(f"{req_obj.args[0]}\n")
+        f.write("--" * 20 + "\n")
+
+        f.write(f"Prediction: {pred}\n")
+        f.write(f"Metrics: {metrics}\n")
 
 
 @positional_deprecated
@@ -340,6 +353,10 @@ def evaluate(
         doc = docs[(task_name, doc_id)]
 
         metrics = task.process_results(doc, requests)
+        # _, pred, req_obj, reqtype = requests[0]
+
+        # if output_base_path and reqtype=="greedy_until":
+        #     write_sample(output_base_path, task_name, doc_id, pred=pred, req_obj=req_obj, metrics=metrics)
         for metric, value in metrics.items():
             vals[(task_name, metric)].append(value)
 

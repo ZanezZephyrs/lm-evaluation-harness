@@ -7,6 +7,13 @@ from lm_eval import tasks, evaluator, utils
 
 logging.getLogger("openai").setLevel(logging.WARNING)
 
+# python main.py \
+#     --model hf-causal \
+#     --model_args pretrained=mistralai/Mistral-7B-v0.1 \
+#     --tasks exams \
+#     --device cuda:1 \
+#     --num_fewshot 1 \
+#     --limit 5
 
 def parse_args():
     parser = argparse.ArgumentParser()
